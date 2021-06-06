@@ -10,19 +10,20 @@ class TareaTest : DescribeSpec({
   program.horasEstimadas = 210
   program.costoInfraestructura= 300000
 
-  val pedro = Empleado(program)
+  val pedro = Empleado()
   pedro.valorHora = 1000
-  val juan = Empleado(program)
+  val juan = Empleado()
   juan.valorHora = 2000
-  val alberto = Empleado(program)
+  val alberto = Empleado()
   alberto.valorHora = 1500
 
-  val capporale = Encargado(program)
+  val capporale = Responsable()
   capporale.valorHora = 1750
 
   program.agregarEmpleado(juan)
   program.agregarEmpleado(pedro)
   program.agregarEmpleado(alberto)
+  program.agregarResponsable(capporale)
 
   describe("Sueldo de Pedro"){
     it("sueldo de pedro"){
@@ -41,13 +42,17 @@ class TareaTest : DescribeSpec({
     it("nomina de Empleados"){
       program.empleados.shouldContainExactly(juan,pedro, alberto)
     }
-    it("Costo de tarea simple"){
-      // ojo falta incluir encargado
-      program.costoTotalTarea().shouldBe(615000)
-    }
-
   }
 
-  describe("Una tarea") {
+  describe("Requerimientos") {
+    it("nomina de empleados y responsable"){
+    program.nominaEmpleadosYResponsable().shouldContainExactly(juan,pedro,alberto,capporale)
+    }
+    it("horas necesarias para cumplir el tarea con los 3 empleados"){
+      program.horasNecesarias().shouldBe(70)
+    }
+    it("costo de la tarea program"){
+      program.costoTotalTarea().shouldBe(982500)
+    }
   }
 })
