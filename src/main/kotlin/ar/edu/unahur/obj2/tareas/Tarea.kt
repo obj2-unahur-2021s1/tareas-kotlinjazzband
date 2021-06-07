@@ -1,5 +1,4 @@
 package ar.edu.unahur.obj2.tareas
-
 import java.lang.Math.abs
 
 interface Tarea {
@@ -9,17 +8,19 @@ interface Tarea {
 }
 
 class TareaSimple :Tarea {
-    val responsableDeTarea= mutableListOf<Trabajador>()
     var costoInfraestructura = 0
     var horasEstimadas = 0
+    val responsableDeTarea = mutableListOf<Trabajador>()
     val empleados = mutableListOf<Trabajador>()
 
     fun agregarResponsable(responsable: Trabajador) = responsableDeTarea.add(responsable)
     fun agregarEmpleado(empleado:Trabajador) = empleados.add(empleado)
     override fun horasNecesarias() = horasEstimadas / empleados.size
     override fun nomina() : List<Trabajador> = empleados + responsableDeTarea
+
     fun costoPorSueldosEmpleados():Int = empleados.sumBy { it.sueldo(this) }
     fun costoPorSueldoResponsable():Int = responsableDeTarea.sumBy { it.sueldo(this) }
+
     override fun costoTotalTarea(): Int = costoPorSueldosEmpleados() + costoPorSueldoResponsable() + costoInfraestructura
 }
 
@@ -28,11 +29,17 @@ class TareaIntegracion : Tarea {
     val subtareas = mutableListOf<TareaSimple>()
 
     fun agregarResponsable(responsable: Trabajador) = responsableDeTarea.add(responsable)
-    override fun nomina() : List<Trabajador> = subtareas.map{ it.nomina() }.flatten() + responsableDeTarea
     fun agregarSubtarea(tarea: TareaSimple) = subtareas.add(tarea)
+
+    override fun nomina() : List<Trabajador> = subtareas.map{ it.nomina() }.flatten() + responsableDeTarea
+    // subtareas lista de tareas simple -> cada subtarea tiene una lista de empleados
+    fun nominaDeSubtarea(){  }
+
+
     fun costoSubtareas() = subtareas.sumBy { it.costoTotalTarea() }
     fun horasNecesariasDeSubtareas() = subtareas.sumBy { it.horasEstimadas }
     override fun horasNecesarias(): Int = this.horasNecesariasDeSubtareas() + abs(this.horasNecesariasDeSubtareas() / 8)
+
     override fun costoTotalTarea(): Int = (this.costoSubtareas() + this.costoSubtareas()* 0.03).toInt()
 }
 
