@@ -6,93 +6,87 @@ import io.kotest.matchers.shouldBe
 
 class TareaTest : DescribeSpec({
 
-  val program = TareaSimple()
-  program.horasEstimadas = 210
-  program.costoInfraestructura= 300000
+  val tarea1 = TareaSimple(300000,210)
+  val pedro = Empleado(1000)
+  val juan = Empleado(2000)
+  val alberto = Empleado(1500)
+  val capporale = Responsable(1750)
 
-  val pedro = Empleado()
-  pedro.valorHora = 1000
-  val juan = Empleado()
-  juan.valorHora = 2000
-  val alberto = Empleado()
-  alberto.valorHora = 1500
+  tarea1.agregarEmpleado(juan)
+  tarea1.agregarEmpleado(pedro)
+  tarea1.agregarEmpleado(alberto)
+  tarea1.agregarResponsable(capporale)
 
-  val capporale = Responsable()
-  capporale.valorHora = 1750
-
-  program.agregarEmpleado(juan)
-  program.agregarEmpleado(pedro)
-  program.agregarEmpleado(alberto)
-  program.agregarResponsable(capporale)
-
-  describe("Testeando la Tarea Simple "){
-    it("sueldo de pedro de la Tarea Simple"){
-      pedro.sueldo(program).shouldBe(70000)
+  describe("Testeando la Tarea Simple"){
+    it("sueldo de pedro"){
+      pedro.sueldo(tarea1).shouldBe(70000)
     }
-    it("Sueldo de Juan de la Tarea Simple"){
-      juan.sueldo(program).shouldBe(140000)
+    it("Sueldo de Juan"){
+      juan.sueldo(tarea1).shouldBe(140000)
     }
-    it("Sueldo de Alberto de la Tarea Simple"){
-      alberto.sueldo(program).shouldBe(105000)
+    it("Sueldo de Alberto"){
+      alberto.sueldo(tarea1).shouldBe(105000)
     }
-    it("Sueldo de capporale de la Tarea Simple"){
-      capporale.sueldo(program).shouldBe(367500)
+    it("Sueldo de capporale"){
+      capporale.sueldo(tarea1).shouldBe(367500)
     }
-    it("Costo Total de Tarea Simple"){
-      program.costoTotalTarea().shouldBe(982500)
-    }
-    it("Empleados de program"){
-      program.empleados.shouldContainExactly(juan, pedro, alberto)
+    it("nomina de Empleados"){
+      tarea1.empleados.shouldContainExactly(juan,pedro, alberto)
     }
   }
 
-  describe("Requerimientos del enunciado para Tarea Simple") {
-    it("Nomina de empleados y responsable de la Tarea Simple"){
-    program.nomina().shouldContainExactly(juan,pedro,alberto,capporale)
+  describe("Requerimientos del enunciado para Tarea Simple tarea1") {
+    it("Nomina de empleados y responsable Tarea Simple"){
+      tarea1.nomina().shouldContainExactly(juan,pedro,alberto,capporale)
     }
-    it("horas necesarias para cumplir el Tarea Simple con los 3 empleados"){
-      program.horasNecesarias().shouldBe(70)
+    it("horas necesarias para cumplir el tarea1 con los 3 empleados"){
+      tarea1.horasNecesarias().shouldBe(70)
     }
-    it("Costo Total de Tarea Simple program"){
-      program.costoTotalTarea().shouldBe(982500)
+    it("costo de la tarea1 "){
+      tarea1.costoTotalTarea().shouldBe(982500)
     }
   }
 
-  describe("Testeo de Tareas de Integración"){
-    val integrando = TareaSimple()
-    integrando.horasEstimadas = 90
-    integrando.agregarEmpleado(juan)
-    integrando.agregarEmpleado(pedro)
-    integrando.agregarEmpleado(alberto)
+  val tarea2 = TareaSimple(250000,300)
+  val hector = Empleado(1200)
+  val ramon = Empleado(1000)
+  val horacio = Empleado(2500)
+  val fernandez = Responsable(2750)
 
-    val finalizando = TareaSimple()
-    finalizando.horasEstimadas = 30
-    finalizando.agregarEmpleado(juan)
-    finalizando.agregarEmpleado(pedro)
+  tarea2.agregarEmpleado(hector)
+  tarea2.agregarEmpleado(ramon)
+  tarea2.agregarEmpleado(horacio)
+  tarea2.agregarResponsable(fernandez)
 
-    val haciendoCosas = TareaIntegracion()
-    haciendoCosas.agregarResponsable(capporale)
-    haciendoCosas.agregarSubtarea(integrando)
-    haciendoCosas.agregarSubtarea(finalizando)
-    it(" costo de sueldo de subtarea integrando "){
-      integrando.costoPorSueldosEmpleados().shouldBe(135000)
+  describe("Requerimientos Test Tarea de Integracion tarea1 y tarea2") {
+    it("tarea2 nomina de empleados y responsable"){
+      tarea2.nomina().shouldContainExactly(hector,ramon,horacio,fernandez)
     }
-    it(" costo de sueldo de subtarea finalizando "){
-      finalizando.costoPorSueldosEmpleados().shouldBe(45000)
+    it("program2 horas necesarias para cumplir el tarea con los 3 empleados"){
+      tarea2.horasNecesarias().shouldBe(100)
     }
-    it(" Tarea de integración integrando nomina de Empleado"){
-      haciendoCosas.costoSubtareas().shouldBe(180000)
-    }
-    it("Costo Total de las tareas de integración resp =  5400  es el 3% "){
-      haciendoCosas.costoTotalTarea().shouldBe(185400)
-    }
-    it("Cantidad de horas necesarias Incluye Horas de planificación (15) "){
-      haciendoCosas.horasNecesarias().shouldBe(135)
-    }
-    it("Nomina de empleado de tarea de integración"){
-      haciendoCosas.nomina().shouldContainExactly(juan, pedro, alberto, juan, pedro, capporale)
+    it("program2 costo de la tarea program2"){
+      tarea2.costoTotalTarea().shouldBe(1545000)
     }
 
+    val haciendoTareas = TareaIntegracion()
+    val armando = Responsable(3500)
+
+    haciendoTareas.agregarResponsable(armando)
+    haciendoTareas.agregarSubtarea(tarea1)
+    haciendoTareas.agregarSubtarea(tarea2)
+
+    it("haciendoTareas horas de la tarea de integracion"){
+      haciendoTareas.horasNecesariasDeSubtareas().shouldBe(510)
+    }
+    it("haciendoTareas costo tarea1 + costo tarea2 + 0.03 (3%) de total del costo de la tarea"){
+      haciendoTareas.costoTotalTarea().shouldBe(2603325)
+    }
+    it("haciendoTareas = nomina en numeros de tarea1 + tarea1 + responsable de la tarea de integracion "){
+      haciendoTareas.nomina().size.shouldBe(9)
+    }
+    it("haciendoTareas nomina de empleados y sus responsable + resposnable de tareas de integracion"){
+      haciendoTareas.nomina().shouldContainExactly(juan,pedro,alberto,capporale,hector,ramon,horacio,fernandez,armando)
+    }
   }
-
 })

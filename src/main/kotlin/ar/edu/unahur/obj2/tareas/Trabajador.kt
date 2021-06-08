@@ -1,16 +1,11 @@
 package ar.edu.unahur.obj2.tareas
 
-
-abstract class Trabajador {
-    var valorHora: Int = 0
+abstract class Trabajador(open val valorHora: Int) {
     abstract fun sueldo(tarea:TareaSimple): Int
 }
-
-
-class Empleado: Trabajador() {
+class Empleado(override val valorHora: Int): Trabajador(valorHora) {
     override fun sueldo(tarea: TareaSimple): Int = this.valorHora * tarea.horasNecesarias()
 }
-
-class Responsable: Trabajador() {
+class Responsable(override val valorHora: Int): Trabajador(valorHora) {
     override fun sueldo(tarea:TareaSimple): Int = tarea.horasEstimadas * this.valorHora
 }
