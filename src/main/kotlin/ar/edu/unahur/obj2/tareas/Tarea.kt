@@ -32,9 +32,6 @@ class TareaIntegracion : Tarea {
     fun agregarSubtarea(tarea: TareaSimple) = subtareas.add(tarea)
 
     override fun nomina() : List<Trabajador> = subtareas.map{ it.nomina() }.flatten() + responsableDeTarea
-    // subtareas lista de tareas simple -> cada subtarea tiene una lista de empleados
-    fun nominaDeSubtarea(){  }
-
 
     fun costoSubtareas() = subtareas.sumBy { it.costoTotalTarea() }
     fun horasNecesariasDeSubtareas() = subtareas.sumBy { it.horasEstimadas }

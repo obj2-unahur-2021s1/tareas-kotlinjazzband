@@ -90,14 +90,9 @@ class TareaTest : DescribeSpec({
       haciendoCosas.horasNecesarias().shouldBe(135)
     }
     it("Nomina de empleado de tarea de integración"){
-      haciendoCosas.nominaDeSubtarea().shouldContainExactly(juan, pedro, alberto)
+      haciendoCosas.nomina().shouldContainExactly(juan, pedro, alberto, juan, pedro, capporale)
     }
-    it("Empleados de Integrando"){
-      integrando.empleados.shouldContainExactly(juan, pedro, alberto)
-    }
-    it("Empleados de Integrando"){
-      finalizando.empleados.shouldContainExactly(juan, pedro)
-    }
+
   }
 
 })
