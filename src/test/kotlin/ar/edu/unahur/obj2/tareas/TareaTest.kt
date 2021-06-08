@@ -6,7 +6,9 @@ import io.kotest.matchers.shouldBe
 
 class TareaTest : DescribeSpec({
 
-  val tarea1 = TareaSimple(300000,210)
+  val tarea1 = TareaSimple()
+  tarea1.horasEstimadas = 210
+  tarea1.costoInfraestructura= 300000
   val pedro = Empleado(1000)
   val juan = Empleado(2000)
   val alberto = Empleado(1500)
@@ -47,7 +49,9 @@ class TareaTest : DescribeSpec({
     }
   }
 
-  val tarea2 = TareaSimple(250000,300)
+  val tarea2 = TareaSimple()
+  tarea2.horasEstimadas = 300
+  tarea2.costoInfraestructura= 250000
   val hector = Empleado(1200)
   val ramon = Empleado(1000)
   val horacio = Empleado(2500)

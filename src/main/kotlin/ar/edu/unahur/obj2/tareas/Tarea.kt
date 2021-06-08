@@ -7,7 +7,9 @@ interface Tarea {
     fun costoTotalTarea(): Int
 }
 
-class TareaSimple(val costoInfraestructura: Int, val horasEstimadas: Int) :Tarea {
+class TareaSimple :Tarea {
+    var costoInfraestructura = 0
+    var horasEstimadas = 0
     val responsableDeTarea = mutableListOf<Trabajador>()
     val empleados = mutableListOf<Trabajador>()
     fun agregarResponsable(responsable: Trabajador) = responsableDeTarea.add(responsable)
